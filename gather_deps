@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+
+in_use() {
+	git grep '^\s*use ' | cut -d' ' -f2 | sort -u
+}
+
+provided() {
+	git grep '^\s*package ' | cut -d' ' -f2 | sort -u
+}
+
+not_in_repo() {
+	comm -23 <(in_use) <(provided) | sed -e 's/;$//g'
+}
+
+filter_out_system() {
+	while read package; do
+		perl -e "use $package;" 2>/dev/null || echo $package
+	done
+}
+
+need=$(not_in_repo | filter_out_system)
+
+set -x
+rm -rf vendor; mkdir vendor;
+./cpanm -l vendor $need
