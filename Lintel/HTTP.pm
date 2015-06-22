@@ -5,15 +5,28 @@ use strict;
 use AnyEvent::HTTP qw( http_request );
 use Lintel::Promise;
 use JSON qw( decode_json );
+use Smart::Comments;
+
+use base 'Exporter';
+our @EXPORT_OK = qw(
+	do_http
+	do_json
+
+	unwrap_json
+);
 
 sub do_http {
+	my ($method, $uri, @more) = @_;
+	$uri = $uri->as_string
+		if ref $uri;
+
 	my $promise = Lintel::Promise->new();
-	http_request(@_, sub {
+	http_request($method, $uri, @more, sub {
 		my ($body, $headers) = @_;
-		return $deferred->resolve(@_)
+		return $promise->resolve(@_)
 			if $headers->{Status} == 200;
 
-		return $deferred->reject( $headers->{Reason} );
+		return $promise->reject( $headers->{Reason} );
 	});
 	return $promise;
 }
@@ -32,3 +45,5 @@ sub unwrap_json {
 sub do_json {
 	return unwrap_json(do_http(@_));
 }
+
+1;

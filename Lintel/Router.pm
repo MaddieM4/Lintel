@@ -30,25 +30,29 @@ sub _register_service {
 	my ($self, $uri) = @_;
 	$uri = URI->new($uri);
 	$uri->path('/api/available');
-	my $details = do_json(uri => $uri)->get;
+	my $details = shift @{do_json('GET', $uri)->await};
 	
-	for my $spec (@$details) {
-		# Labels are from microservice perspective - reverse them
-		my ($mine, $yours, $children) = @{$spec}{qw(base_yours base_mine children)};
-		die "Insufficient service data: ", Dumper($spec)
-			if !($mine && $yours);
-		push(@$children, '')
-			if !@$children;
+	map { $self->_install_service_spec($uri, $_) } @$details;
+}
 
-		for my $child (@$children) {
-			my ($internal, $external) = ($mine . $child, $yours . $child);
-			my $outbound = $uri->clone;
-			$outbound->path($external);
-			$self->add_route($mine . $child, target => sub {
-				my $request = shift;
-				return do_json(uri => $outbound);
-			});
-		}
+sub _install_service_spec {
+	my ($self, $uri, $spec) = @_;
+
+	# Labels are from microservice perspective - reverse them
+	my ($mine, $yours, $children) = @{$spec}{qw(base_yours base_mine children)};
+	die "Insufficient service data: ", Dumper($spec)
+		if !($mine && $yours);
+	push(@$children, '')
+		if !@$children;
+
+	for my $child (@$children) {
+		my ($internal, $external) = ($mine . $child, $yours . $child);
+		my $outbound = $uri->clone;
+		$outbound->path($external);
+		$self->add_route($mine . $child, target => sub {
+			my $request = shift;
+			return do_json('GET', $outbound);
+		});
 	}
 }
 
