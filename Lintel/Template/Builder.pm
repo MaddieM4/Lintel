@@ -1,8 +1,7 @@
 package Lintel::Template::Builder;
 use Moose;
-use Lintel::ResponseFuture;
 
-extends 'Lintel::FutureBuilder';
+extends 'Lintel::Promise::Builder';
 
 has 'tt' => (
 	is  => 'rw',
@@ -16,16 +15,20 @@ has 'name' => (
 	required => 1,
 );
 
-sub execute {
+sub promise {
 	my $self = shift;
-	my $future = $self->collect->then(sub {
+	return $self->collect->then(sub {
 		my $output;
 		my $success = $self->tt->process($self->name, $self->args, \$output);
-		return $success ? Future->done($output)
-		     :            Future->fail($self->tt->error . "\n")
+		return $success ? $output
+		     :            die $self->tt->error . "\n"
 		     ;
 	});
-	return Lintel::ResponseFuture->wrap($future);
+}
+
+sub execute {
+	my $self = shift;
+	return shift @{$self->promise->await};
 }
 
 1;

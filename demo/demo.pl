@@ -6,7 +6,7 @@ use FindBin;
 use local::lib "$FindBin::Bin/../vendor";
 use lib "$FindBin::Bin/../";
 
-import Future;
+use Lintel::Promise;
 
 use Lintel::Template::Factory;
 our $tmpl = Lintel::Template::Factory->new(config => {
@@ -15,5 +15,5 @@ our $tmpl = Lintel::Template::Factory->new(config => {
 });
 
 print $tmpl->build("hello.tmpl", title => 'foo')
-	->req("content", Future->done("example"))
+	->req("content", Lintel::Promise->wrap("example"))
 	->execute();
