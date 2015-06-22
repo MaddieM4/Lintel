@@ -1,7 +1,7 @@
 package Lintel::Router;
 use Moose;
-use Lintel::App;
-use Lintel::Async qw( do_json_request new_future );
+use Plack::App::Path::Router;
+use Lintel::HTTP qw( do_json );
 use Data::Dumper;
 use Smart::Comments;
 
@@ -30,7 +30,7 @@ sub _register_service {
 	my ($self, $uri) = @_;
 	$uri = URI->new($uri);
 	$uri->path('/api/available');
-	my $details = do_json_request(uri => $uri)->get;
+	my $details = do_json(uri => $uri)->get;
 	
 	for my $spec (@$details) {
 		# Labels are from microservice perspective - reverse them
@@ -46,7 +46,7 @@ sub _register_service {
 			$outbound->path($external);
 			$self->add_route($mine . $child, target => sub {
 				my $request = shift;
-				return do_json_request(uri => $outbound);
+				return do_json(uri => $outbound);
 			});
 		}
 	}
@@ -54,7 +54,7 @@ sub _register_service {
 
 sub app {
 	my $self = shift;
-	return Lintel::App->new(router => $self);
+	return Plack::App::Path::Router->new(router => $self);
 }
 
 1;
