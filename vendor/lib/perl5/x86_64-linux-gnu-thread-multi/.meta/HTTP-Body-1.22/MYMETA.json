@@ -1,0 +1,59 @@
+{
+   "abstract" : "HTTP Body Parser",
+   "author" : [
+      "Christian Hansen, C<chansen@cpan.org>",
+      "Sebastian Riedel, C<sri@cpan.org>",
+      "Andy Grundman, C<andy@hybridized.org>",
+      "Torsten Raudssus, C<getty@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 5.020, CPAN::Meta::Converter version 2.133380, CPAN::Meta::Converter version 2.142690",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "HTTP-Body",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Carp" : "0",
+            "Digest::MD5" : "0",
+            "File::Temp" : "0.14",
+            "HTTP::Headers" : "0",
+            "IO::File" : "1.14"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Encode" : "0",
+            "File::Spec::Functions" : "0",
+            "File::Temp" : "0.14",
+            "HTTP::Request::Common" : "0",
+            "Test::Deep" : "0",
+            "Test::More" : "0.86"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "repository" : {
+         "type" : "git",
+         "url" : "git://git.shadowcat.co.uk/catagits/HTTP-Body.git"
+      },
+      "x_Mailing_list" : "http://lists.scsys.co.uk/cgi-bin/mailman/listinfo/catalyst-dev"
+   },
+   "version" : "1.22"
+}

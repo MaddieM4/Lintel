@@ -1,0 +1,35 @@
+{
+   "abstract" : "Test strings and data structures and show differences if not ok",
+   "author" : [
+      "David Cantrell <david@cantrell.org.uk>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Module::Build version 0.421",
+   "license" : [
+      "unknown"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Test-Differences",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "runtime" : {
+         "requires" : {
+            "Capture::Tiny" : 0.24,
+            "Data::Dumper" : 2.126,
+            "Test::More" : "0",
+            "Text::Diff" : 0.35
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {},
+   "version" : "0.63"
+}
