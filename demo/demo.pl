@@ -7,6 +7,8 @@ use local::lib "$FindBin::Bin/../vendor";
 use lib "$FindBin::Bin/../";
 
 use Lintel::Promise;
+use Data::Dumper;
+use Scalar::Util qw( blessed );
 
 use Lintel::Template::Factory;
 our $tmpl = Lintel::Template::Factory->new(config => {
@@ -14,6 +16,19 @@ our $tmpl = Lintel::Template::Factory->new(config => {
 	INTERPOLATE  => 1,
 });
 
-print $tmpl->build("hello.tmpl", title => 'foo')
-	->req("content", Lintel::Promise->wrap("example"))
-	->execute();
+my $result = $tmpl->build("hello.tmpl", title => 'foo')
+	->req("content", Lintel::Promise->wrap("example"));
+
+print Data::Dumper->Dump([
+	blessed($result),
+	blessed($result->promise),
+	blessed($result->execute),
+	$result->promise->finalize,
+	$result->raw,
+], [qw(
+	blessed($result)
+	blessed($result->promise)
+	blessed($result->execute)
+	$result->promise->finalize
+	$result->raw
+)]);
