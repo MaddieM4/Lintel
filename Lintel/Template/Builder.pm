@@ -1,5 +1,6 @@
 package Lintel::Template::Builder;
 use Moose;
+use Lintel::ResponseFuture;
 
 extends 'Lintel::FutureBuilder';
 
@@ -17,13 +18,14 @@ has 'name' => (
 
 sub execute {
 	my $self = shift;
-	return $self->collect->then(sub {
+	my $future = $self->collect->then(sub {
 		my $output;
 		my $success = $self->tt->process($self->name, $self->args, \$output);
 		return $success ? Future->done($output)
 		     :            Future->fail($self->tt->error . "\n")
 		     ;
-	})->get();
+	});
+	return Lintel::ResponseFuture->wrap($future);
 }
 
 1;

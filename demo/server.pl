@@ -11,6 +11,7 @@ use HTTP::Server::PSGI;
 
 my $app = Lintel::Router->new()->register(qw(
 	demo::WaitThree
+	http://localhost:9092/
 ))->app;
 
 my $server = HTTP::Server::PSGI->new(

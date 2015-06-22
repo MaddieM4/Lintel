@@ -72,15 +72,4 @@ sub collect {
 	);
 }
 
-sub execute {
-	my $self = shift;
-	return $self->collect->then(sub {
-		my $output;
-		my $success = $self->tt->process($self->name, $self->args, \$output);
-		return $success ? Future->done($output)
-		     :            Future->fail($self->tt->error . "\n")
-		     ;
-	})->get();
-}
-
 1;
