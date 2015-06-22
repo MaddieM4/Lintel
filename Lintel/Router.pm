@@ -1,7 +1,11 @@
 package Lintel::Router;
 use Moose;
-use Plack::App::Path::Router;
+
+use IPC::Run qw( run );
+use Lintel::API;
 use Lintel::HTTP qw( do_json );
+use Plack::App::Path::Router;
+
 use Data::Dumper;
 use Smart::Comments;
 
@@ -13,8 +17,21 @@ sub register {
 	return $self;
 }
 
+sub register_dir {
+	my ($self, $dirname) = @_;
+	my $output;
+	run(
+		['grep', '-Ro', '^package \([^;]*\)', $dirname],
+		'|', ['cut', '-d ', '-f2'],
+		'>', \$output
+	) || die "Find failure: $!";
+
+	$self->register(split "\n", $output);
+}
+
 sub _register {
 	my ($self, $name) = @_;
+	### Registering: $name
 	return $self->_register_service($name)
 		if $name =~ m#^https?://#;
 	return $self->_register_module($name);
@@ -59,6 +76,11 @@ sub _install_service_spec {
 sub app {
 	my $self = shift;
 	return Plack::App::Path::Router->new(router => $self);
+}
+
+sub api {
+	my $self = shift;
+	return Lintel::API->new(router => $self);
 }
 
 1;

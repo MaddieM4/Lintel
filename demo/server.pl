@@ -6,13 +6,13 @@ use FindBin;
 use local::lib "$FindBin::Bin/../vendor";
 use lib "$FindBin::Bin/../";
 
-use Lintel::Router;
 use HTTP::Server::PSGI;
+use demo::ServerGlobals;
 
-my $app = Lintel::Router->new()->register(qw(
+$router->register(qw(
 	demo::WaitThree
 	http://localhost:9092/
-))->app;
+))->register_dir("$FindBin::Bin/views");
 
 my $server = HTTP::Server::PSGI->new(
 	host => "0.0.0.0",
