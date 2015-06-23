@@ -42,7 +42,13 @@
       },
       "runtime" : {
          "requires" : {
-            "Plack" : "1.0",
+            "AnyEvent::HTTP" : "2.22",
+            "IPC::Run" : "0.94",
+            "JSON" : "2.90",
+            "Moose" : "2.00",
+            "Plack" : "1.00",
+            "Promises" : "0.94",
+            "Scalar::Util" : "1.42",
             "Template" : "2.26",
             "perl" : "5.008001"
          }
