@@ -82,4 +82,15 @@ sub api {
 	return Lintel::API->new(router => $self);
 }
 
+sub standalone {
+	my $self = shift;
+	use HTTP::Server::PSGI;
+	return HTTP::Server::PSGI->new(
+		host => "0.0.0.0",
+		port => 9091,
+		timeout => 120,
+		@_,
+	)->run($self->app);
+}
+
 1;
