@@ -61,6 +61,11 @@ Perl, and it's not hiding how it's working.
 
 Philip Horger E<lt>campadrenalin@gmail.comE<gt>
 
+=head1 LICENSE
+
+        This library is free software; you may redistribute it and/or
+            modify it under the same terms as Perl itself.
+
 =cut
 
 use FindBin;

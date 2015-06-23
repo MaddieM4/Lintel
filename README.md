@@ -56,3 +56,8 @@ Perl, and it's not hiding how it's working.
 # AUTHOR
 
 Philip Horger <campadrenalin@gmail.com>
+
+# LICENSE
+
+        This library is free software; you may redistribute it and/or
+            modify it under the same terms as Perl itself.
