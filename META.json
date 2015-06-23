@@ -1,12 +1,12 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "A microframework for Perl + microservices",
    "author" : [
       "Philip Horger <campadrenalin@gmail.com>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Minilla/v2.4.1, CPAN::Meta::Converter version 2.142690",
    "license" : [
-      "perl_5"
+      "unknown"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
@@ -52,5 +52,16 @@
       }
    },
    "release_status" : "unstable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/campadrenalin/Lintel/issues"
+      },
+      "homepage" : "https://github.com/campadrenalin/Lintel",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/campadrenalin/Lintel.git",
+         "web" : "https://github.com/campadrenalin/Lintel"
+      }
+   },
    "version" : "0.01"
 }

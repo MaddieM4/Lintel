@@ -1,6 +1,7 @@
 package Lintel;
 use warnings;
 use strict;
+our $VERSION = "0.01";
 
 =head1 NAME
 
@@ -55,6 +56,10 @@ The highlights of this project are the API router, which lets you treat your int
 and external logic agnostically, and the Template builder, which provids a fluent
 construction syntax without straying into any really esoteric DSL space - it's still
 Perl, and it's not hiding how it's working.
+
+=head1 AUTHOR
+
+Philip Horger E<lt>campadrenalin@gmail.comE<gt>
 
 =cut
 
