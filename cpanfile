@@ -11,5 +11,6 @@ requires 'Scalar::Util',   '1.42';
 requires 'Plack::App::Path::Router', '0.08';
 
 on 'test' => sub {
-    requires 'Test::More', '0.98';
+    requires 'Test::More',   '0.98';
+    requires 'Devel::Cover', '1.18';
 };
