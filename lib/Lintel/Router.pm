@@ -7,7 +7,6 @@ use Lintel::HTTP qw( do_json );
 use Plack::App::Path::Router;
 
 use Data::Dumper;
-use Smart::Comments;
 
 extends 'Path::Router';
 

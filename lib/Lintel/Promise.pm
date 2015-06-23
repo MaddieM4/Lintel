@@ -3,7 +3,6 @@ use Moose;
 use AnyEvent::HTTP;
 use JSON qw( encode_json );
 use Promises backend => ['AnyEvent'];
-use Smart::Comments;
 
 has 'promise' => (
 	is   => 'ro',

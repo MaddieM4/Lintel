@@ -5,7 +5,6 @@ use strict;
 use AnyEvent::HTTP qw( http_request );
 use Lintel::Promise;
 use JSON qw( decode_json );
-use Smart::Comments;
 
 use base 'Exporter';
 our @EXPORT_OK = qw(

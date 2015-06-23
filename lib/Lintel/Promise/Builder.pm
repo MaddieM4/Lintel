@@ -2,7 +2,6 @@ package Lintel::Promise::Builder;
 use Moose;
 use Lintel::Promise;
 use Promises;
-use Smart::Comments;
 
 has 'args' => (
 	is  => 'rw',
