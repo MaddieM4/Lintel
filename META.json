@@ -42,6 +42,8 @@
       },
       "runtime" : {
          "requires" : {
+            "Plack" : "1.0",
+            "Template" : "2.26",
             "perl" : "5.008001"
          }
       },

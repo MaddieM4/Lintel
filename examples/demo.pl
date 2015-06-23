@@ -3,8 +3,8 @@ use warnings;
 use strict;
 
 use FindBin;
-use local::lib "$FindBin::Bin/../vendor";
-use lib "$FindBin::Bin/../";
+#use local::lib "$FindBin::Bin/../vendor";
+use lib "$FindBin::Bin/../lib/";
 
 use Lintel::Promise;
 use Data::Dumper;

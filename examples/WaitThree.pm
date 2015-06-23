@@ -1,4 +1,4 @@
-package demo::WaitThree;
+package examples::WaitThree;
 use warnings;
 use strict;
 

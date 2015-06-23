@@ -22,7 +22,7 @@ has 'config' => (
 		my %config = %default_config;
 		return \%config;
 	},
-	trigger => \&rebuild_tt;
+	trigger => \&rebuild_tt,
 );
 
 sub build {

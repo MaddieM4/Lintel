@@ -1,8 +1,8 @@
-package demo::views::Home;
+package examples::views::Home;
 use warnings;
 use strict;
 
-use demo::ServerGlobals;
+use Lintel;
 
 sub enlist {
 	my ($class, $router) = @_;

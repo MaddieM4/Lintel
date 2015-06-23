@@ -3,14 +3,14 @@ use warnings;
 use strict;
 
 use FindBin;
-use local::lib "$FindBin::Bin/../vendor";
-use lib "$FindBin::Bin/../";
+#use local::lib "$FindBin::Bin/../vendor";
+use lib "$FindBin::Bin/../lib";
 
 use HTTP::Server::PSGI;
-use demo::ServerGlobals;
+use Lintel;
 
 $router->register(qw(
-	demo::WaitThree
+	examples::WaitThree
 	http://localhost:9092/
 ))->register_dir("$FindBin::Bin/views");
 
