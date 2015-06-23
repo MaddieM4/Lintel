@@ -8,6 +8,7 @@ requires 'JSON',           '2.90';
 requires 'Moose',          '2.00';
 requires 'Promises',       '0.94';
 requires 'Scalar::Util',   '1.42';
+requires 'Plack::App::Path::Router', '0.08';
 
 on 'test' => sub {
     requires 'Test::More', '0.98';
