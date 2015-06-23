@@ -11,10 +11,7 @@ our %default_config = (
 has 'tt' => (
 	is => 'rw',
 	lazy => 1,
-	default => sub {
-		my $self = shift;
-		Template->new(%{$self->config}) || die "$Template::ERROR\n";
-	},
+	default => sub { rebuild_tt(shift, 1) },
 );
 
 has 'config' => (
@@ -25,6 +22,7 @@ has 'config' => (
 		my %config = %default_config;
 		return \%config;
 	},
+	trigger => \&rebuild_tt;
 );
 
 sub build {
@@ -34,6 +32,14 @@ sub build {
 		name => $name,
 		args => \%args,
 	);
+}
+
+sub rebuild_tt {
+	my ($self, $just_return) = @_;
+	my $tt = Template->new(%{$self->config}) || die "$Template::ERROR\n";
+	$self->tt($tt)
+		if !$just_return;
+	return $tt;
 }
 
 1;

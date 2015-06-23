@@ -1,3 +1,7 @@
 cpanm
 *.swp
 vendor
+
+Build
+_build
+blib
