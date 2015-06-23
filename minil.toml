@@ -1,4 +1,4 @@
 name = "Lintel"
-# badges = ["travis"]
+badges = ["travis"]
 module_maker="ModuleBuildTiny"
 

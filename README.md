@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/campadrenalin/Lintel.svg?branch=master)](https://travis-ci.org/campadrenalin/Lintel)
 # NAME
 
 Lintel - A microframework for Perl + microservices
