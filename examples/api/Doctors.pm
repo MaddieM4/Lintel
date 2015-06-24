@@ -1,6 +1,7 @@
 package examples::api::Doctors;
 use warnings;
 use strict;
+#use Smart::Comments;
 
 sub enlist {
 	my ($class, $router) = @_;
@@ -42,7 +43,27 @@ sub list_doctors {
 	}
 }
 
+sub _trim {
+	my $str = shift;
+	$str =~ s/^\s+|\s+$//g;
+	return $str;
+}
+
 sub new_doctor {
+	my $req = shift;
+	my %params = map {
+		my $key = $_;
+		my $value = $req->parameters->{$key};
+		die "No value for $key" if !$value;
+		($key => $value);
+	} qw( name   creds   tools   phrase);
+	$params{tools} = [
+		map { _trim($_) }
+		split ",", $params{tools}
+	];
+	$params{id} = @$doctors;
+	push(@$doctors, \%params);
+	return \%params;
 }
 
 sub update_doctor {

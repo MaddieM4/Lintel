@@ -1,6 +1,7 @@
 [% IF doctors.error %]
 <div class="error">[% doctors.error %]</div>
 [% ELSE %]
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <table>
   <thead>
     <tr>
@@ -21,4 +22,65 @@
   </tr>
   [% END %]
 </table>
+<input id="new" type="button" value="New Doctor" onclick="startNew()"/>
+<form method="POST" class="invisible">
+  <h2>Details:</h2>
+  <label>Name: <input type="text" name="name"/></label><br/>
+  <label>Credentials: <input type="text" name="creds"/></label><br/>
+  <label>Tools: <input type="text" name="tools"/></label><br/>
+  <label>Catchphrase: <input type="text" name="phrase"/></label><br/>
+  <br/><input type="submit" value="Submit"/>
+</form>
+<script>
+function startNew() {
+  \$('form').removeClass('invisible').attr({
+    'method': 'POST',
+    'action': '/api/doctor/'
+  });
+  \$('form h2').text('New doctor:');
+}
+
+function tr() {
+  var el = \$('<tr>');
+  for (var i=0; i<arguments.length; i++) {
+    var td = \$('<td>').text(arguments[i]);
+    el.append(td);
+  }
+  return el;
+}
+
+function _updateDisplay(data) {
+    \$('tbody tr').remove();
+    for(var i=0; i<data.doctors.length; i++) {
+      var doc = data.doctors[i];
+      \$('tbody').append(tr(
+        doc.id, doc.name, doc.creds, doc.tools.join(', '), doc.phrase
+      ));
+    }
+}
+function updateDisplay() {
+  \$.ajax('/api/doctor/', {type: "GET", dataType: 'json'})
+  .success(_updateDisplay)
+  .fail(function(_, textStatus, err){
+    console.error(textStatus);
+    console.error(err);
+  });
+}
+
+\$('form').on('submit', function() {
+  var form = \$('form');
+  var method = form.attr('method');
+  var action = form.attr('action');
+  var data = form.serialize();
+  \$.ajax({
+    type: method,
+    url:  action,
+    data: data,
+    dataType: "json"
+  }).success(function() {
+    form.addClass('invisible');
+  }).always(updateDisplay);
+  return false;
+});
+</script>
 [% END %]
