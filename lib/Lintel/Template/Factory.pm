@@ -42,4 +42,10 @@ sub rebuild_tt {
 	return $tt;
 }
 
+sub extend {
+	my $self = shift;
+	my $original_config = $self->config;
+	$self->config({ %$original_config, @_ });
+}
+
 1;

@@ -4,8 +4,13 @@ use strict;
 
 use FindBin;
 use lib "$FindBin::Bin/../lib/";
+use lib "$FindBin::Bin/../";
 
 use Lintel;
+
+$tt->extend(
+	WRAPPER => 'site_wrapper.tmpl',
+);
 
 $router->register(qw(
 	examples::WaitThree
