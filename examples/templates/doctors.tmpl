@@ -1,0 +1,112 @@
+[% IF doctors.error %]
+<div class="error">[% doctors.error %]</div>
+[% ELSE %]
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<table>
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>Name</td>
+      <td>Credentials</td>
+      <td>Tools</td>
+      <td>Catchphrase</td>
+    </tr>
+  </thead>
+  [% FOREACH doc = doctors.doctors %]
+  <tr>
+    <td><a href="#" onclick="startEdit([% doc.id %])">[% doc.id %]</a></td>
+    <td>[% doc.name %]</td>
+    <td>[% doc.creds %]</td>
+    <td>[% doc.tools.join(', ') %]</td>
+    <td>[% doc.phrase %]</td>
+  </tr>
+  [% END %]
+</table>
+<input id="new" type="button" value="New Doctor" onclick="startNew()"/>
+<form method="POST" class="invisible">
+  <h2>Details:</h2>
+  <label>Name: <input type="text" name="name"/></label><br/>
+  <label>Credentials: <input type="text" name="creds"/></label><br/>
+  <label>Tools: <input type="text" name="tools"/></label><br/>
+  <label>Catchphrase: <input type="text" name="phrase"/></label><br/>
+  <br/><input type="submit" value="Submit"/>
+  <input class="js-delete-button invisible" type="button" value="Delete user" onclick="doDelete()"/>
+</form>
+<script>
+function startNew() {
+  $('form').removeClass('invisible').attr({
+    'method': 'POST',
+    'action': '/api/doctor/'
+  });
+  $('form h2').text('New doctor:');
+  $('form .js-delete-button').addClass('invisible');
+}
+function startEdit(id) {
+  $('form').removeClass('invisible').attr({
+    'method': 'PUT',
+    'action': '/api/doctor/' + id
+  });
+  $('form h2').text('Edit doctor #' + id + ':');
+  $('form .js-delete-button').removeClass('invisible');
+}
+function doDelete() {
+  var action = $('form').attr('action');
+  var id = +action.replace("/api/doctor/", "");
+  $.ajax('/api/doctor/' + id, {
+    type: "DELETE",
+    dataType: "json"
+  }).success(function() {
+    $('form').addClass('invisible');
+  }).always(updateDisplay);
+}
+
+function tr() {
+  var el = $('<tr>');
+  for (var i=0; i<arguments.length; i++) {
+    var td = $('<td>').append(arguments[i]);
+    el.append(td);
+  }
+  return el;
+}
+
+function idlink(id) {
+  return $('<a>').attr('href', '#').click(function() {
+    startEdit(id);
+  }).text(id);
+}
+
+function _updateDisplay(data) {
+    $('tbody tr').remove();
+    for(var i=0; i<data.doctors.length; i++) {
+      var doc = data.doctors[i];
+      $('tbody').append(tr(
+        idlink(doc.id), doc.name, doc.creds, doc.tools.join(', '), doc.phrase
+      ));
+    }
+}
+function updateDisplay() {
+  $.ajax('/api/doctor/', {type: "GET", dataType: 'json'})
+  .success(_updateDisplay)
+  .fail(function(_, textStatus, err){
+    console.error(textStatus);
+    console.error(err);
+  });
+}
+
+$('form').on('submit', function() {
+  var form = $('form');
+  var method = form.attr('method');
+  var action = form.attr('action');
+  var data = form.serialize();
+  $.ajax({
+    type: method,
+    url:  action,
+    data: data,
+    dataType: "json"
+  }).success(function() {
+    form.addClass('invisible');
+  }).always(updateDisplay);
+  return false;
+});
+</script>
+[% END %]

@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>[% title %]</title>
-</head>
-<body>
-	<h1>[% title %]</h1>
-	<h2>Timers:</h2>
-	<ul>
-		[% FOREACH timer = timers %]
-		<li><b>Iteration [% loop.index + 1 %]/[% loop.size %]</b></li>
-		[%   IF !timer.error %]
-		<li><b>Started:</b> [% timer.Started %]</li>
-		<li><b>Ended:</b> [% timer.Ended %]</li>
-		[%   ELSE %]
-		<li><i>There was an error: [% timer.error %]</i></li>
-		[% END; END %]
-	</ul>
-</body>
-</html>
+<h2>Demos available:</h2>
+<ul>
+	[% FOREACH link = links %]
+	<li><a href="[% link.url %]">[% link.name %]</a></li>
+	[% END %]
+</ul>

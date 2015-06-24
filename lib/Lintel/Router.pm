@@ -3,8 +3,8 @@ use Moose;
 
 use IPC::Run qw( run );
 use Lintel::API;
+use Lintel::App;
 use Lintel::HTTP qw( do_json );
-use Plack::App::Path::Router;
 
 use Data::Dumper;
 
@@ -74,7 +74,7 @@ sub _install_service_spec {
 
 sub app {
 	my $self = shift;
-	return Plack::App::Path::Router->new(router => $self);
+	return Lintel::App->new(router => $self);
 }
 
 sub api {
