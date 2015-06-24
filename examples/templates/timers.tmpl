@@ -1,3 +1,8 @@
+<h2>Adjust concurrency:</h2>
+<form action="/timers" method="GET">
+<input type="number" name="concurrency" value="[% concurrency %]"/>
+<input type="submit"/>
+</form>
 <h2>Timers:</h2>
 <ul>
 	[% FOREACH timer = timers %]
