@@ -9,20 +9,15 @@ sub enlist {
 	$router->add_route('/', target => \&home);
 }
 
+our $_links = [
+	map {{ name => $_->[0], url => $_->[1] }}
+	['Timers', '/timers'],
+];
+
 sub home {
 	my $req = shift;
-
-	# Demo - allow user to adjust concurrency
-	local $AnyEvent::HTTP::MAX_PER_HOST = $req->parameters->{concurrency}
-		if $req->parameters->{concurrency};
-
-	my $callback = sub {
-		my ($builder, $result) = @_;
-		push(@{$builder->args->{timers}}, $result);
-	};
-	my $builder = $tt->build('home.tmpl', title => 'Homepage', timers => []);
-	map { $builder->req($callback, $api->get('/api/wait/1s')) } (0..19);
-	return $builder->execute;
+	return $tt->build('home.tmpl', title => 'Homepage', links => $_links)
+		->execute;
 }
 
 1;
