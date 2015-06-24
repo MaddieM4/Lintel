@@ -33,33 +33,35 @@
 </form>
 <script>
 function startNew() {
-  \$('form').removeClass('invisible').attr({
+  $('form').removeClass('invisible').attr({
     'method': 'POST',
     'action': '/api/doctor/'
   });
-  \$('form h2').text('New doctor:');
+  $('form h2').text('New doctor:');
+}
+function startEdit() {
 }
 
 function tr() {
-  var el = \$('<tr>');
+  var el = $('<tr>');
   for (var i=0; i<arguments.length; i++) {
-    var td = \$('<td>').text(arguments[i]);
+    var td = $('<td>').text(arguments[i]);
     el.append(td);
   }
   return el;
 }
 
 function _updateDisplay(data) {
-    \$('tbody tr').remove();
+    $('tbody tr').remove();
     for(var i=0; i<data.doctors.length; i++) {
       var doc = data.doctors[i];
-      \$('tbody').append(tr(
+      $('tbody').append(tr(
         doc.id, doc.name, doc.creds, doc.tools.join(', '), doc.phrase
       ));
     }
 }
 function updateDisplay() {
-  \$.ajax('/api/doctor/', {type: "GET", dataType: 'json'})
+  $.ajax('/api/doctor/', {type: "GET", dataType: 'json'})
   .success(_updateDisplay)
   .fail(function(_, textStatus, err){
     console.error(textStatus);
@@ -67,12 +69,12 @@ function updateDisplay() {
   });
 }
 
-\$('form').on('submit', function() {
-  var form = \$('form');
+$('form').on('submit', function() {
+  var form = $('form');
   var method = form.attr('method');
   var action = form.attr('action');
   var data = form.serialize();
-  \$.ajax({
+  $.ajax({
     type: method,
     url:  action,
     data: data,

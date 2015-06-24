@@ -10,6 +10,7 @@ use Lintel;
 
 $tt->extend(
 	WRAPPER => 'site_wrapper.tmpl',
+	INTERPOLATE => 0,
 );
 
 $router->register(qw(
