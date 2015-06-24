@@ -14,7 +14,7 @@
   </thead>
   [% FOREACH doc = doctors.doctors %]
   <tr>
-    <td>[% doc.id %]</td>
+    <td><a href="#" onclick="startEdit([% doc.id %])">[% doc.id %]</a></td>
     <td>[% doc.name %]</td>
     <td>[% doc.creds %]</td>
     <td>[% doc.tools.join(', ') %]</td>
@@ -30,6 +30,7 @@
   <label>Tools: <input type="text" name="tools"/></label><br/>
   <label>Catchphrase: <input type="text" name="phrase"/></label><br/>
   <br/><input type="submit" value="Submit"/>
+  <input class="js-delete-button invisible" type="button" value="Delete user" onclick="doDelete()"/>
 </form>
 <script>
 function startNew() {
@@ -38,17 +39,40 @@ function startNew() {
     'action': '/api/doctor/'
   });
   $('form h2').text('New doctor:');
+  $('form .js-delete-button').addClass('invisible');
 }
-function startEdit() {
+function startEdit(id) {
+  $('form').removeClass('invisible').attr({
+    'method': 'PUT',
+    'action': '/api/doctor/' + id
+  });
+  $('form h2').text('Edit doctor #' + id + ':');
+  $('form .js-delete-button').removeClass('invisible');
+}
+function doDelete() {
+  var action = $('form').attr('action');
+  var id = +action.replace("/api/doctor/", "");
+  $.ajax('/api/doctor/' + id, {
+    type: "DELETE",
+    dataType: "json"
+  }).success(function() {
+    $('form').addClass('invisible');
+  }).always(updateDisplay);
 }
 
 function tr() {
   var el = $('<tr>');
   for (var i=0; i<arguments.length; i++) {
-    var td = $('<td>').text(arguments[i]);
+    var td = $('<td>').append(arguments[i]);
     el.append(td);
   }
   return el;
+}
+
+function idlink(id) {
+  return $('<a>').attr('href', '#').click(function() {
+    startEdit(id);
+  }).text(id);
 }
 
 function _updateDisplay(data) {
@@ -56,7 +80,7 @@ function _updateDisplay(data) {
     for(var i=0; i<data.doctors.length; i++) {
       var doc = data.doctors[i];
       $('tbody').append(tr(
-        doc.id, doc.name, doc.creds, doc.tools.join(', '), doc.phrase
+        idlink(doc.id), doc.name, doc.creds, doc.tools.join(', '), doc.phrase
       ));
     }
 }
