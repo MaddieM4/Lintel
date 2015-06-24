@@ -15,6 +15,8 @@ $tt->extend(
 $router->register(qw(
 	examples::WaitThree
 	http://localhost:9092/
-))->register_dir("$FindBin::Bin/views");
+))
+->register_dir("$FindBin::Bin/api")
+->register_dir("$FindBin::Bin/views");
 
 $router->standalone(port => 9091);

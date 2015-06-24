@@ -1,0 +1,24 @@
+[% IF doctors.error %]
+<div class="error">[% doctors.error %]</div>
+[% ELSE %]
+<table>
+  <thead>
+    <tr>
+      <td>ID</td>
+      <td>Name</td>
+      <td>Credentials</td>
+      <td>Tools</td>
+      <td>Catchphrase</td>
+    </tr>
+  </thead>
+  [% FOREACH doc = doctors.doctors %]
+  <tr>
+    <td>[% doc.id %]</td>
+    <td>[% doc.name %]</td>
+    <td>[% doc.creds %]</td>
+    <td>[% doc.tools.join(', ') %]</td>
+    <td>[% doc.phrase %]</td>
+  </tr>
+  [% END %]
+</table>
+[% END %]
